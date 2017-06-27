@@ -1,9 +1,16 @@
 language: python
 
-# Python 3.5 specified to make tox environment 'py35' work.
+# Python 3.5 installed via deadsnakes addon to make tox environment 'py35' work.
 # See: https://github.com/travis-ci/travis-ci/issues/4794
 python:
-  - 3.5
+  - 3.6
+
+addons:
+  apt:
+    sources:
+      - deadsnakes
+    packages:
+      - python3.5
 
 # Environment changes have to be manually synced with 'tox.ini'.
 # See: https://github.com/travis-ci/travis-ci/issues/3024
@@ -12,6 +19,7 @@ env:
   - TOXENV=py33
   - TOXENV=py34
   - TOXENV=py35
+  - TOXENV=py36
   - TOXENV=pypy
 
 install:
@@ -22,6 +30,6 @@ script:
   - tox
 
 after_success:
-  # Coveralls submission only for py35 environment, because of being the only
+  # Coveralls submission only for py36 environment, because of being the only
   # one that executes doctest-modules testing, according to tox.ini.
-  - if [ ${TOXENV} = "py35" ]; then coveralls; fi
+  - if [ ${TOXENV} = "py36" ]; then coveralls; fi
